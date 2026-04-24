@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recursos para Estudiantes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #1e0f3a 0%, #0a0f23 100%);
+            min-height: 100vh;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header h1 {
+            color: #4a5568;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            color: #718096;
+            font-size: 1.1rem;
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .theme-toggle, .external-link-btn {
+            color: white;
+            font-size: 1.2rem;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid #667eea;
+            border-radius: 20px;
+            cursor: pointer;
+            user-select: none;
+            transition: background 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .theme-toggle:hover, .external-link-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .search-bar {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            transition: border-color 0.3s;
+        }
+
+        .search-bar input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .section-title {
+            color: white;
+            font-size: 1.2rem;
+            margin: 1.5rem 0 1rem;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid #667eea;
+            border-radius: 20px;
+            display: inline-block;
+            width: 100%;
+            cursor: pointer;
+            user-select: none;
+            transition: background 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .section-title:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .section-title.expanded {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        body:not(.dark-theme) .section-title {
+            background: rgba(75, 75, 162, 0.85) !important;
+        }
+
+        body:not(.dark-theme) .section-title:hover {
+            background: rgba(75, 75, 162, 0.95) !important;
+        }
+
+        body:not(.dark-theme) .section-title.expanded {
+            background: rgba(75, 75, 162, 1) !important;
+        }
+
+        body:not(.dark-theme) .theme-toggle,
+        body:not(.dark-theme) .external-link-btn {
+            background: rgba(75, 75, 162, 0.85) !important;
+            color: white !important;
+        }
+
+        body:not(.dark-theme) .theme-toggle:hover,
+        body:not(.dark-theme) .external-link-btn:hover {
+            background: rgba(75, 75, 162, 0.95) !important;
+        }
+
+        .categories.hidden {
+            display: none;
+        }
+
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .category {
+            background: white;
+            padding: 1rem;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .category:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .category h2 {
+            color: #4a5568;
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .category ul {
+            list-style: none;
+        }
+
+        .category li {
+            padding: 0.3rem 0;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 0.85rem;
+        }
+
+        .category li:last-child {
+            border-bottom: none;
+        }
+
+        .category a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .category a:hover {
+            color: #764ba2;
+        }
+
+        .app-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 0.75rem;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .app-buttons li {
+            border: none;
+            padding: 0;
+        }
+
+        .app-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 1rem 0.5rem;
+            background: #1a1a2e;
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            border: 2px solid #667eea;
+            font-weight: 600;
+            font-size: 0.85rem;
+            min-height: 80px;
+            transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
+            word-break: break-word;
+            hyphens: auto;
+        }
+
+        .app-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
+            background: #000000;
+            color: white;
+        }
+
+        .category span {
+            color: #718096;
+            font-size: 0.75rem;
+            display: none;
+        }
+
+        footer {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1.5rem;
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        footer p {
+            color: #718096;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .categories {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-buttons {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .theme-toggle, .external-link-btn {
+                font-size: 0.9rem;
+                padding: 0.4rem 0.8rem;
+            }
+        }
+
+        body.dark-theme {
+            background: linear-gradient(135deg, #0f0f23 0%, #0a0b1e 100%);
+        }
+
+        body.dark-theme header {
+            background: rgba(30, 30, 50, 0.95);
+        }
+
+        body.dark-theme header h1,
+        body.dark-theme .category h2 {
+            color: #e2e8f0;
+        }
+
+        body.dark-theme header p,
+        body.dark-theme .category span {
+            color: #a0aec0;
+        }
+
+        body.dark-theme .category {
+            background: #2d3748;
+            border-color: #667eea;
+        }
+
+        body.dark-theme .category li {
+            border-bottom: 1px solid #4a5568;
+        }
+
+        body.dark-theme .category a:hover {
+            color: #a78bfa;
+        }
+
+        body.dark-theme .search-bar {
+            background: #2d3748;
+        }
+
+        body.dark-theme .search-bar input {
+            background: #1a202c;
+            border-color: #4a5568;
+            color: #e2e8f0;
+        }
+
+        body.dark-theme footer {
+            background: rgba(30, 30, 50, 0.95);
+        }
+
+        body.dark-theme footer p {
+            color: #a0aec0;
+        }
+
+        body.dark-theme .app-btn {
+            background: #1a1a2e;
+            border: 2px solid #667eea;
+            color: white;
+        }
+
+        body.dark-theme .app-btn:hover {
+            background: #000000;
+            box-shadow: 0 6px 20px rgba(74, 144, 226, 0.5);
+            color: white;
+        }
+
+        body:not(.dark-theme) * {
+            color: #000 !important;
+        }
+        body:not(.dark-theme) .section-title {
+            color: white !important;
+        }
+        body:not(.dark-theme) .app-btn,
+        body:not(.dark-theme) .external-link-btn,
+        body:not(.dark-theme) .theme-toggle {
+            color: white !important;
+        }
+        body:not(.dark-theme) #themeText,
+        body:not(.dark-theme) #themeIcon {
+            color: white !important;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>📚 Recursos para Estudiantes</h1>
+        <p>Encuentra las mejores herramientas y enlaces para facilitar tu aprendizaje</p>
+        <div class="header-buttons">
+            <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
+                <span id="themeIcon">🌙</span>
+                <span id="themeText">Modo Oscuro</span>
+            </button>
+            <a class="external-link-btn" href="https://pcbsystempr-cyber.github.io/pcbsystem/" target="_blank" rel="noopener noreferrer">
+                ↩️ Regresar a PCBsystem
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="🔍 Buscar recursos...">
+        </div>
+
+        <!-- Aprendizaje Interactivo -->
+        <h2 class="section-title" onclick="toggleSection(this)">🎮 Aprendizaje Interactivo</h2>
+        <div class="categories hidden">
+            <div class="category">
+                <h2>🎯 Gamificación Educativa</h2>
+                <ul class="app-buttons">
+                    <li><a href="https://kahoot.com" target="_blank" class="app-btn">Kahoot!</a></li>
+                    <li><a href="https://quizlet.com" target="_blank" class="app-btn">Quizlet</a></li>
+                </ul>
+            </div>
+            <div class="category">
+                <h2>🛠️ Proyectos</h2>
+                <ul class="app-buttons">
+                    <li><a href="https://www.canva.com" target="_blank" class="app-btn">Canva</a></li>
+                    <li><a href="https://www.tinkercad.com" target="_blank" class="app-btn">Tinkercad</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Ciencias y Tabla Periódica -->
+        <h2 class="section-title" onclick="toggleSection(this)">🔬 Ciencias y Tabla Periódica</h2>
+        <div class="categories hidden">
+            <div class="category">
+                <h2>⚛️ Tabla Periódica</h2>
+                <ul class="app-buttons">
+                    <li><a href="https://ptable.com" target="_blank" class="app-btn">Ptable</a></li>
+                    <li><a href="https://www.webelements.com" target="_blank" class="app-btn">WebElements</a></li>
+                </ul>
+            </div>
+            <div class="category">
+                <h2>🧪 Laboratorios Virtuales</h2>
+                <ul class="app-buttons">
+                    <li><a href="https://phet.colorado.edu" target="_blank" class="app-btn">PhET</a></li>
+                    <li><a href="https://www.labster.com" target="_blank" class="app-btn">Labster</a></li>
+                </ul>
+            </div>
+            <div class="category">
+                <h2>🧬 Biología y Medicina</h2>
+                <ul class="app-buttons">
+                    <li><a href="https://www.biodigital.com" target="_blank" class="app-btn">BioDigital</a></li>
+                    <li><a href="https://www.innerbody.com" target="_blank" class="app-btn">InnerBody</a></li>
+                </ul>
+            </div>
+            <div class="category">
+                <h2>🌍 Ciencias de la Tierra</h2>
+                <ul class="app-buttons">
+                    <li><a href="https://www.google.com/earth" target="_blank" class="app-btn">Google Earth</a></li>
+                    <li><a href="https://www.nasa.gov" target="_blank" class="app-btn">NASA</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Matemáticas -->
+        <h2 class="section-title" onclick="toggleSection(this)">📐 Matemáticas</h2>
+        <div class="categories hidden">
+            <div class="category">
+                <h2>📊 Geometría y Gráficos</h2>
+                <ul class="app-buttons">
+                    <li><a href="https://www.geogebra.org" target="_blank" class="app-btn">GeoGebra</a></li>
+                    <li><a href="https://www.desmos.com" target="_blank" class="app-btn">Desmos</a></li>
+                    <li><a href="https://www.mathway.com" target="_blank" class="app-btn">Mathway</a></li>
+                    <li><a href="https://www.wolframalpha.com" target="_blank" class="app-btn">Wolfram</a></li>
+                </ul>
+            </div>
+            <div class="category">
+                <h2>🔢 Recursos Matemáticos</h2>
+                <ul class="app-buttons">
+                    <li><a href="https://www.mathworks.com" target="_blank" class="app-btn">MATLAB</a></li>
+                    <li><a href="https://www.ixl.com" target="_blank" class="app-btn">IXL</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Herramientas de Productividad -->
+        <h2 class="section-title" onclick="toggleSection(this)">📝 Herramientas de Productividad</h2>
+        <div class="categories hidden">
+            <div class="category">
+                <h2>🗂️ Organización y Notas</h2>
+                <ul class="app-buttons">
+                    <li><a href="https://www.notion.so" target="_blank" class="app-btn">Notion</a></li>
+                    <li><a href="https://todoist.com" target="_blank" class="app-btn">Todoist</a></li>
+                    <li><a href="https://www.google.com/keep" target="_blank" class="app-btn">Keep</a></li>
+                    <li><a href="https://evernote.com" target="_blank" class="app-btn">Evernote</a></li>
+                </ul>
+            </div>
+            <div class="category">
+                <h2>⏱️ Gestión del Tiempo</h2>
+                <ul class="app-buttons">
+                    <li><a href="https://www.forestapp.cc" target="_blank" class="app-btn">Forest</a></li>
+                    <li><a href="https://tomato-timer.com" target="_blank" class="app-btn">Tomato</a></li>
+                    <li><a href="https://www.rescuetime.com" target="_blank" class="app-btn">RescueTime</a></li>
+                    <li><a href="https://www.toggl.com" target="_blank" class="app-btn">Toggl</a></li>
+                </ul>
+            </div>
+            <div class="category">
+                <h2>💻 Programación</h2>
+                <ul class="app-buttons">
+                    <li><a href="https://github.com" target="_blank" class="app-btn">GitHub</a></li>
+                    <li><a href="https://stackoverflow.com" target="_blank" class="app-btn">Stack Overflow</a></li>
+                    <li><a href="https://www.replit.com" target="_blank" class="app-btn">Replit</a></li>
+                    <li><a href="https://codepen.io" target="_blank" class="app-btn">CodePen</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Herramientas de Escritura -->
+        <h2 class="section-title" onclick="toggleSection(this)">✍️ Herramientas de Escritura</h2>
+        <div class="categories hidden">
+            <div class="category">
+                <h2>📖 Redacción y Gramática</h2>
+                <ul class="app-buttons">
+                    <li><a href="https://www.grammarly.com" target="_blank" class="app-btn">Grammarly</a></li>
+                    <li><a href="https://www.thesaurus.com" target="_blank" class="app-btn">Thesaurus</a></li>
+                    <li><a href="https://www.citethisforme.com" target="_blank" class="app-btn">Cite This</a></li>
+                    <li><a href="https://www.zotero.org" target="_blank" class="app-btn">Zotero</a></li>
+                </ul>
+            </div>
+            <div class="category">
+                <h2>📑 Documentos Colaborativos</h2>
+                <ul class="app-buttons">
+                    <li><a href="https://docs.google.com" target="_blank" class="app-btn">Docs</a></li>
+                    <li><a href="https://www.dropbox.com/paper" target="_blank" class="app-btn">Paper</a></li>
+                    <li><a href="https://www.trello.com" target="_blank" class="app-btn">Trello</a></li>
+                    <li><a href="https://miro.com" target="_blank" class="app-btn">Miro</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Materiales de Estudio Descargables -->
+        <h2 class="section-title" onclick="toggleSection(this)">📥 Materiales de Estudio Descargables</h2>
+        <div class="categories hidden">
+            <div class="category">
+                <h2>📚 Libros y Textos</h2>
+                <ul class="app-buttons">
+                    <li><a href="https://www.gutenberg.org" target="_blank" class="app-btn">Gutenberg</a></li>
+                    <li><a href="https://openstax.org" target="_blank" class="app-btn">OpenStax</a></li>
+                    <li><a href="https://www.freetechbooks.com" target="_blank" class="app-btn">FreeTech</a></li>
+                    <li><a href="https://www.bookboon.com" target="_blank" class="app-btn">BookBoon</a></li>
+                </ul>
+            </div>
+            <div class="category">
+                <h2>📝 Apuntes y Fichas</h2>
+                <ul class="app-buttons">
+                    <li><a href="https://www.studyblue.com" target="_blank" class="app-btn">StudyBlue</a></li>
+                    <li><a href="https://www.chegg.com" target="_blank" class="app-btn">Chegg</a></li>
+                    <li><a href="https://www.scribd.com" target="_blank" class="app-btn">Scribd</a></li>
+                    <li><a href="https://www.academia.edu" target="_blank" class="app-btn">Academia</a></li>
+                </ul>
+            </div>
+            <div class="category">
+                <h2>🔢 Ejercicios y Práctica</h2>
+                <ul class="app-buttons">
+                    <li><a href="https://www.math-salamanders.com" target="_blank" class="app-btn">Math Salamanders</a></li>
+                    <li><a href="https://www.education.com/worksheets" target="_blank" class="app-btn">Education</a></li>
+                </ul>
+            </div>
+            <div class="category">
+                <h2>🧠 Mapas Mentales</h2>
+                <ul class="app-buttons">
+                    <li><a href="https://www.mindmeister.com" target="_blank" class="app-btn">MindMeister</a></li>
+                    <li><a href="https://www.xmind.net" target="_blank" class="app-btn">XMind</a></li>
+                    <li><a href="https://coggle.it" target="_blank" class="app-btn">Coggle</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Recomendaciones y Apoyo Académico -->
+        <h2 class="section-title" onclick="toggleSection(this)">💼 Recomendaciones y Apoyo Académico</h2>
+        <div class="categories hidden">
+            <div class="category">
+                <h2>🎯 Orientación Educativa</h2>
+                <ul class="app-buttons">
+                    <li><a href="https://www.khanacademy.org/college-careers" target="_blank" class="app-btn">Khan</a></li>
+                    <li><a href="https://www.collegedata.com" target="_blank" class="app-btn">College Data</a></li>
+                    <li><a href="https://www.unigo.com" target="_blank" class="app-btn">UniGo</a></li>
+                </ul>
+            </div>
+            <div class="category">
+                <h2>📞 Servicios de Tutoría</h2>
+                <ul class="app-buttons">
+                    <li><a href="https://www.tutor.com" target="_blank" class="app-btn">Tutor.com</a></li>
+                    <li><a href="https://www.wyzant.com" target="_blank" class="app-btn">Wyzant</a></li>
+                    <li><a href="https://www.skype.com/tutoring" target="_blank" class="app-btn">Skype</a></li>
+                </ul>
+            </div>
+            <div class="category">
+                <h2>🧠 Salud Mental Estudiantil</h2>
+                <ul class="app-buttons">
+                    <li><a href="https://www.7cups.com" target="_blank" class="app-btn">7 Cups</a></li>
+                    <li><a href="https://www.calm.com" target="_blank" class="app-btn">Calm</a></li>
+                    <li><a href="https://www.headspace.com" target="_blank" class="app-btn">Headspace</a></li>
+                </ul>
+            </div>
+            <div class="category">
+                <h2>📖 Desarrollo de Habilidades</h2>
+                <ul class="app-buttons">
+                    <li><a href="https://www.futurelearn.com" target="_blank" class="app-btn">FutureLearn</a></li>
+                    <li><a href="https://www.skillshare.com" target="_blank" class="app-btn">Skillshare</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2024 Recursos para Estudiantes - Tu guía de aprendizaje</p>
+    </footer>
+
+    <script>
+        function toggleSection(title) {
+            title.classList.toggle('expanded');
+            const categories = title.nextElementSibling;
+            if (categories && categories.classList.contains('categories')) {
+                categories.classList.toggle('hidden');
+            }
+        }
+
+        function toggleTheme() {
+            const body = document.body;
+            const themeIcon = document.getElementById('themeIcon');
+            const themeText = document.getElementById('themeText');
+            
+            body.classList.toggle('dark-theme');
+            
+            if (body.classList.contains('dark-theme')) {
+                themeIcon.textContent = '☀️';
+                themeText.textContent = 'Modo Claro';
+            } else {
+                themeIcon.textContent = '🌙';
+                themeText.textContent = 'Modo Oscuro';
+            }
+            
+            localStorage.setItem('theme', body.classList.contains('dark-theme') ? 'dark' : 'light');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize all subsections closed
+            document.querySelectorAll('.categories').forEach(cat => cat.classList.add('hidden'));
+            
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-theme');
+                document.getElementById('themeIcon').textContent = '☀️';
+                document.getElementById('themeText').textContent = 'Modo Claro';
+            }
+        });
+
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const categories = document.querySelectorAll('.category');
+            const sectionTitles = document.querySelectorAll('.section-title');
+
+            // Reset search visibility
+            categories.forEach(category => {
+                category.style.display = '';
+            });
+            sectionTitles.forEach(title => {
+                title.style.display = '';
+                title.classList.remove('expanded');
+            });
+            document.querySelectorAll('.categories').forEach(cat => {
+                cat.classList.add('hidden');
+            });
+
+            if (searchTerm === '') return;
+
+            categories.forEach(category => {
+                const text = category.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    category.style.display = 'block';
+                    const section = category.closest('.categories').previousElementSibling;
+                    if (section && section.classList.contains('section-title')) {
+                        section.classList.add('expanded');
+                        section.nextElementSibling.classList.remove('hidden');
+                    }
+                } else {
+                    category.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
